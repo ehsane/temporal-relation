@@ -23,32 +23,24 @@
   ~ Boston, MA  02110-1301  USA
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<dependencies>
-	    <dependency>
-			<groupId>rainbownlp/groupId>
-			<artifactId>rainbow-nlp</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+
     <modelVersion>4.0.0</modelVersion>
-
-<!--     <parent> -->
-    
-<!--         <groupId>rainbownlp</groupId> -->
-<!--         <artifactId>rainbownlp-hibernate</artifactId> -->
-<!--         <version>4.1.3.Final</version> -->
-<!--         <relativePath>../pom.xml</relativePath> -->
-<!--     </parent> -->
-
-    <artifactId>rainbow-nlp-temporal</artifactId>
-    <name>Rainbow NLP-Temporal</name>
-    <description>Rainbow NLP for temporal relationship extraction</description>
-
+	<groupId>rnlp</groupId>
+	<artifactId>rnlp-temporal</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	
     <properties>
         <!-- Skip artifact deployment -->
         <maven.deploy.skip>true</maven.deploy.skip>
         
     </properties>
     
+    <dependencies>
+	    <dependency>
+			<groupId>RainbowNLP</groupId>
+			<artifactId>RainbowNLP</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 </project>
