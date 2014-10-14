@@ -56,7 +56,6 @@ public class I2b2AnnotationAnalyzer{
 			//Util.log("Loading documents from :"+filesRoot, Level.INFO);
 			int counter = 0;
 			for(File file: files) {
-				
 //				if(!file_path.contains("0330.txt")) continue;
 				//Util.generateParseFilesIfnotExist(file_path);
 				try{

@@ -23,6 +23,7 @@ import rainbownlp.i2b2.sharedtask2012.featurecalculator.link.NormalizedDependenc
 import rainbownlp.i2b2.sharedtask2012.featurecalculator.link.PatternStatisticsFeatures;
 import rainbownlp.i2b2.sharedtask2012.ruleengines.SecTimeEventUtils;
 import rainbownlp.machinelearning.IFeatureCalculator;
+import rainbownlp.machinelearning.IMLExampleBuilder;
 import rainbownlp.machinelearning.MLExample;
 import rainbownlp.machinelearning.featurecalculator.link.ConceptsBetweenWords;
 import rainbownlp.machinelearning.featurecalculator.link.LinkGeneralFeatures;
@@ -33,7 +34,7 @@ import rainbownlp.machinelearning.featurecalculator.sentence.SentenceSyntax;
 import rainbownlp.util.FileUtil;
 import rainbownlp.util.HibernateUtil;
 
-public class LinkExampleBuilder {
+public class LinkExampleBuilder implements IMLExampleBuilder {
 	public final static String ExperimentGroupTimexEvent = "LinkClassificationTimexEvent";
 	public final static String ExperimentGroupEventEvent = "LinkClassificationEventEvent";
 	public final static String ExperimentGroupBetweenSentence = "LinkClassificationBetweenSentence";
@@ -391,8 +392,13 @@ public class LinkExampleBuilder {
 		List<Artifact> sentences = 
 				Artifact.listByType(Artifact.Type.Sentence,is_training_mode);
 		
+		LinkExampleBuilder linkEB = new LinkExampleBuilder();
+		linkEB.createExamples(sentences);
+	}
+	
+	public List<MLExample> createExamples(List<Artifact> sentences){
+		List<MLExample> examples = new ArrayList<MLExample>();
 		int counter = 0;
-		int example_counter = 0;
 		for(Artifact sentence : sentences)
 		{
 //			if(sentence.getArtifactId()!= 134548) continue;
@@ -407,7 +413,6 @@ public class LinkExampleBuilder {
 			for(TimexPhrase timex : timexs)
 				for(ClinicalEvent event : events)
 				{
-					example_counter++;
 					PhraseLink left_to_right_link;
 					PhraseLink right_to_left_link;
 					PhraseLink timex_event_link = 
@@ -462,7 +467,7 @@ public class LinkExampleBuilder {
 						link_example.setForTrain(false);
 					
 					MLExample.saveExample(link_example);
-					
+					examples.add(link_example);
 					Setting.SaveInGetInstance = true;
 
 //					link_example.calculateFeatures(timexEventFeatureCalculators);
@@ -476,7 +481,6 @@ public class LinkExampleBuilder {
 //				if(event1.getEventType()==EventType.TEST)
 				for(int j=i+1;j<events.size();j++)
 				{
-					example_counter++;
 					ClinicalEvent event2 = events.get(j);
 					
 					PhraseLink events_link = 
@@ -516,7 +520,7 @@ public class LinkExampleBuilder {
 						link_example.setForTrain(false);
 					
 					MLExample.saveExample(link_example);
-					
+					examples.add(link_example);
 					Setting.SaveInGetInstance = true;
 					
 //					link_example.calculateFeatures(eventEventFeatureCalculators);
@@ -536,6 +540,7 @@ public class LinkExampleBuilder {
 //			List<PhraseLink> phrases_in_sentence = PhraseLink.findAllPhraseLinkInDocument(doc);
 //			expandWithClosure(phrases_in_sentence);
 //		}
+		return examples;
 	}
 	//<event> in the <event> 
 	//<event> when <event> 
@@ -836,5 +841,14 @@ public class LinkExampleBuilder {
 //			 }
 		}
 		return expanded;	 
+	}
+
+	public List<MLExample> getExamples(String artifactsCategory) {
+		List<Artifact> sentences = 
+				Artifact.listByType(Artifact.Type.Sentence, artifactsCategory);
+		
+		LinkExampleBuilder linkEB = new LinkExampleBuilder();
+		
+		return linkEB.createExamples(sentences);
 	}
 }

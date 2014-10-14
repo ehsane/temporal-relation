@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import rainbownlp.core.Artifact;
 import rainbownlp.core.Setting;
-import rainbownlp.preprocess.IDocumentAnalyzer;
+import rainbownlp.preprocess.DocumentAnalyzer;
 import rainbownlp.preprocess.Tokenizer;
 import rainbownlp.util.FileUtil;
 import rainbownlp.util.HibernateUtil;
@@ -16,7 +16,7 @@ import edu.stanford.nlp.process.PTBTokenizer;
 import edu.umass.cs.mallet.base.pipe.iterator.FileIterator;
 
 
-public class I2b2ClinicalDocumentAnalyzer implements IDocumentAnalyzer{
+public class I2b2ClinicalDocumentAnalyzer extends DocumentAnalyzer{
 
 	public static void main(String[] args)
 	{
